@@ -9,6 +9,7 @@ import singer
 import requests
 
 LOGGER = singer.get_logger()
+MAX_PAGE_SIZE = 5000
 
 class FacebookReportingService:
 
@@ -132,7 +133,7 @@ class FacebookReportingService:
         date_parts = self.config['dateRange'].split(',')
         reporting_params = {
             "access_token": self.access_token,
-            "limit": 5000,
+            "limit": MAX_PAGE_SIZE,
             "fields": self.schema_map[self.stream]['fields'],
             "time_range": json.dumps({
                 'since': self.parse_date(date_parts[0]),
@@ -193,7 +194,7 @@ class FacebookReportingService:
         account_params = {
             "access_token": self.access_token,
             "fields": "id",
-            "limit": 5000
+            "limit": MAX_PAGE_SIZE
         }
         accounts = self.retrieve_paged_data(f'{self.api_url}/{user_id}/adaccounts', account_params)
         account_ids = list(map(lambda acc: acc['id'], accounts))
@@ -203,14 +204,23 @@ class FacebookReportingService:
         result = []
         has_next_page = True
         next_page_token = ''
-        while has_next_page:
-            params['after'] = next_page_token
-            raw_response = requests.get(url, params)
-            if raw_response.status_code != 200:
-                LOGGER.info(f'Request failed for {url}')
-                return []
-            response = raw_response.json()
-            result.extend(response['data'])
-            has_next_page = 'next' in response['paging'] if 'paging' in response else False
-            next_page_token = response['paging']['cursors']['after'] if 'paging' in response else ''
+
+        try:
+            while has_next_page:
+                params['after'] = next_page_token
+                raw_response = requests.get(url, params)
+                if raw_response.status_code != 200:
+                    if params['limit'] == MAX_PAGE_SIZE:
+                        LOGGER.info(f'Request failed for {url}, retrying with a lower limit')
+                        params['limit'] = 1000
+                        return self.retrieve_paged_data(url, params)
+                    else:
+                        LOGGER.info(f'Request failed for {url}')
+                        return []
+                response = raw_response.json()
+                result.extend(response['data'])
+                has_next_page = 'next' in response['paging'] if 'paging' in response else False
+                next_page_token = response['paging']['cursors']['after'] if 'paging' in response else ''
+        except Exception as ex:
+            LOGGER.info(ex)
         return result
