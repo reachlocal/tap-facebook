@@ -16,6 +16,18 @@
         "campaign_name": {
             "type": "string"
         },
+        "adset_id": {
+            "type": "integer"
+        },
+        "adset_name": {
+            "type": "string"
+        },
+        "ad_id": {
+            "type": "integer"
+        },
+        "ad_name": {
+            "type": "string"
+        },
         "report_date": {
             "type": "string",
             "format": "date"

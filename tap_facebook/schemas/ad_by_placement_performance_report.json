@@ -16,6 +16,18 @@
         "campaign_name": {
             "type": "string"
         },
+        "adset_id": {
+            "type": "integer"
+        },
+        "adset_name": {
+            "type": "string"
+        },
+        "ad_id": {
+            "type": "integer"
+        },
+        "ad_name": {
+            "type": "string"
+        },
         "report_date": {
             "type": "string",
             "format": "date"
@@ -68,16 +80,28 @@
         "page_engagements": {
             "type": "integer"
         },
+        "quality_ranking": {
+            "type": "string"
+        },
+        "engagement_rate_ranking": {
+            "type": "string"
+        },
+        "conversion_rate_ranking": {
+            "type": "string"
+        },
         "video_views": {
             "type": "integer"
         },
         "video_views_p100": {
             "type": "integer"
         },
-        "age": {
+        "platform_position": {
             "type": "string"
         },
-        "gender": {
+        "publisher_platform": {
+            "type": "string"
+        },
+        "device_platform": {
             "type": "string"
         }
     }

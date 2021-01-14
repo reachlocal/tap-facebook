@@ -16,6 +16,18 @@
         "campaign_name": {
             "type": "string"
         },
+        "adset_id": {
+            "type": "integer"
+        },
+        "adset_name": {
+            "type": "string"
+        },
+        "ad_id": {
+            "type": "integer"
+        },
+        "ad_name": {
+            "type": "string"
+        },
         "report_date": {
             "type": "string",
             "format": "date"
@@ -74,10 +86,7 @@
         "video_views_p100": {
             "type": "integer"
         },
-        "age": {
-            "type": "string"
-        },
-        "gender": {
+        "impression_device": {
             "type": "string"
         }
     }

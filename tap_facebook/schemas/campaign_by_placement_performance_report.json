@@ -74,10 +74,13 @@
         "video_views_p100": {
             "type": "integer"
         },
-        "age": {
+        "platform_position": {
             "type": "string"
         },
-        "gender": {
+        "publisher_platform": {
+            "type": "string"
+        },
+        "device_platform": {
             "type": "string"
         }
     }

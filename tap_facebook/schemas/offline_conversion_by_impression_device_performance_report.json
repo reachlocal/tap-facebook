@@ -1,0 +1,33 @@
+{
+    "type": [
+        "object"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "account_id": {
+            "type": "integer"
+        },
+        "account_name": {
+            "type": "string"
+        },
+        "campaign_id": {
+            "type": "integer"
+        },
+        "campaign_name": {
+            "type": "string"
+        },
+        "report_date": {
+            "type": "string",
+            "format": "date"
+        },
+        "offline_conversion_purchases": {
+            "type": "integer"
+        },
+        "offline_conversion_purchase_value": {
+            "type": "number"
+        },
+        "impression_device": {
+            "type": "string"
+        }
+    }
+}

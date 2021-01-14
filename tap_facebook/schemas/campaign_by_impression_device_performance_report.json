@@ -41,7 +41,16 @@
         "comments": {
             "type": "integer"
         },
+        "likes": {
+            "type": "integer"
+        },
+        "action_reactions": {
+            "type": "integer"
+        },
         "link_clicks": {
+            "type": "integer"
+        },
+        "unique_link_clicks": {
             "type": "integer"
         },
         "landing_page_views": {
@@ -57,24 +66,6 @@
             "type": "integer"
         },
         "page_engagements": {
-            "type": "integer"
-        },
-        "leadgen_groupeds": {
-            "type": "integer"
-        },
-        "leads": {
-            "type": "integer"
-        },
-        "omni_add_to_carts": {
-            "type": "integer"
-        },
-        "omni_initiated_checkouts": {
-            "type": "integer"
-        },
-        "add_to_carts": {
-            "type": "integer"
-        },
-        "initiate_checkouts": {
             "type": "integer"
         },
         "video_views": {
