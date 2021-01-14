@@ -18,6 +18,26 @@ class FacebookReportingService:
         self.props = [(k, v) for k, v in schema["properties"].items()]
         self.api_url = 'https://graph.facebook.com/v9.0'
         self.access_token = config['accessToken']
+
+        common_fields = 'campaign_id,campaign_name,account_id,account_name'
+        self.schema_map = {
+            'campaign_performance_report': {
+                'fields': f'{common_fields},actions,action_values,unique_actions,clicks,impressions,reach,inline_link_clicks,spend,frequency,video_p100_watched_actions',
+                'params': {}
+            },
+            'campaign_by_age_gender_performance_report': {
+                'fields': f'{common_fields},actions,action_values,unique_actions,clicks,impressions,reach,inline_link_clicks,spend,frequency,video_p100_watched_actions',
+                'params': {
+                    'breakdowns': 'age,gender'
+                }
+            },
+            'campaign_by_impression_device_performance_report': {
+                'fields': f'{common_fields},actions,action_values,unique_actions,clicks,impressions,reach,inline_link_clicks,spend,frequency,video_p100_watched_actions',
+                'params': {
+                    'breakdowns': 'impression_device'
+                }
+            }
+        }
     
     def get_reports(self):
         LOGGER.info('Getting reports')
@@ -32,7 +52,7 @@ class FacebookReportingService:
         reporting_params = {
             "access_token": self.access_token,
             "limit": 5000,
-            "fields": "actions,action_values,unique_actions,clicks,impressions,reach,inline_link_clicks,spend,frequency,video_p100_watched_actions,campaign_id,campaign_name,account_id,account_name",
+            "fields": self.schema_map[self.stream]['fields'],
             "time_range": json.dumps({
                 'since': self.parse_date(date_parts[0]),
                 'until': self.parse_date(date_parts[1])
@@ -40,6 +60,8 @@ class FacebookReportingService:
             "time_increment": 1,
             "level": "campaign"
         }
+
+        reporting_params.update(self.schema_map[self.stream]['params'])
         acc_report = list(map(lambda item: self.map_record(item), self.retrieve_paged_data(f'{self.api_url}/{account}/insights', reporting_params)))
         LOGGER.info(f'Retrieved {len(acc_report)} items')
         singer.write_records(self.stream, acc_report)
@@ -83,7 +105,7 @@ class FacebookReportingService:
             "limit": 5000
         }
         accounts = self.retrieve_paged_data(f'{self.api_url}/{user_id}/adaccounts', account_params)
-        account_ids = list(map(lambda acc: acc['id'], accounts))[:10]
+        account_ids = list(map(lambda acc: acc['id'], accounts))
         return account_ids
 
     def retrieve_paged_data(self, url, params):

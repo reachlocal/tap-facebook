@@ -1,0 +1,90 @@
+{
+    "type": [
+        "object"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "account_id": {
+            "type": "integer"
+        },
+        "account_name": {
+            "type": "string"
+        },
+        "campaign_id": {
+            "type": "integer"
+        },
+        "campaign_name": {
+            "type": "string"
+        },
+        "report_date": {
+            "type": "string",
+            "format": "date"
+        },
+        "clicks": {
+            "type": "integer"
+        },
+        "impressions": {
+            "type": "integer"
+        },
+        "reach": {
+            "type": "integer"
+        },
+        "inline_link_clicks": {
+            "type": "integer"
+        },
+        "spend": {
+            "type": "number"
+        },
+        "frequency": {
+            "type": "number"
+        },
+        "comments": {
+            "type": "integer"
+        },
+        "link_clicks": {
+            "type": "integer"
+        },
+        "landing_page_views": {
+            "type": "integer"
+        },
+        "posts": {
+            "type": "integer"
+        },
+        "post_reactions": {
+            "type": "integer"
+        },
+        "post_engagements": {
+            "type": "integer"
+        },
+        "page_engagements": {
+            "type": "integer"
+        },
+        "leadgen_groupeds": {
+            "type": "integer"
+        },
+        "leads": {
+            "type": "integer"
+        },
+        "omni_add_to_carts": {
+            "type": "integer"
+        },
+        "omni_initiated_checkouts": {
+            "type": "integer"
+        },
+        "add_to_carts": {
+            "type": "integer"
+        },
+        "initiate_checkouts": {
+            "type": "integer"
+        },
+        "video_views": {
+            "type": "integer"
+        },
+        "video_views_p100": {
+            "type": "integer"
+        },
+        "impression_device": {
+            "type": "string"
+        }
+    }
+}
