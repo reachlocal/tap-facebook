@@ -126,7 +126,7 @@ class FacebookReportingService:
         LOGGER.info('Retrieved account IDs')
         total = len(account_ids)
 
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        with ThreadPoolExecutor(max_workers=5) as executor:
             executor.map(lambda arg: self.retrieve_report_for_account(arg[1], arg[0], total), enumerate(account_ids))
 
     def retrieve_report_for_account(self, account, index, total):
