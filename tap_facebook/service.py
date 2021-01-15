@@ -145,7 +145,7 @@ class FacebookReportingService:
 
         reporting_params.update(self.schema_map[self.stream]['params'])
         acc_report = list(map(lambda item: self.map_record(item), self.retrieve_paged_data(f'{self.api_url}/{account}/insights', reporting_params)))
-        LOGGER.info(f'Retrieved {len(acc_report)} items for account {index + 1}/{total} ({account})')
+        LOGGER.info(f'[{self.stream}] Retrieved {len(acc_report)} items for account {index + 1}/{total} ({account}) for {self.config["dateRange"]}')
         singer.write_records(self.stream, acc_report)
 
     def parse_date(self, date_str):
