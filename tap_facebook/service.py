@@ -130,18 +130,22 @@ class FacebookReportingService:
             executor.map(lambda arg: self.retrieve_report_for_account(arg[1], arg[0], total), enumerate(account_ids))
 
     def retrieve_report_for_account(self, account, index, total):
-        date_parts = self.config['dateRange'].split(',')
         reporting_params = {
             "access_token": self.access_token,
             "limit": MAX_PAGE_SIZE,
             "fields": self.schema_map[self.stream]['fields'],
-            "time_range": json.dumps({
-                'since': self.parse_date(date_parts[0]),
-                'until': self.parse_date(date_parts[1])
-            }),
             "time_increment": 1,
             "level": self.schema_map[self.stream]['level']
         }
+
+        if ',' in self.config['dateRange']:
+            date_parts = self.config['dateRange'].split(',')
+            reporting_params['time_range'] = json.dumps({
+                'since': self.parse_date(date_parts[0]),
+                'until': self.parse_date(date_parts[1])
+            })
+        else:
+            reporting_params['date_preset'] = self.config['dateRange']
 
         reporting_params.update(self.schema_map[self.stream]['params'])
         acc_report = list(map(lambda item: self.map_record(item), self.retrieve_paged_data(f'{self.api_url}/{account}/insights', reporting_params)))
