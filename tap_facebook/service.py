@@ -219,12 +219,12 @@ class FacebookReportingService:
                         params['limit'] = 1000
                         return self.retrieve_paged_data(url, params)
                     else:
-                        LOGGER.info(f'Request failed for {url}')
+                        LOGGER.error(f'[{self.stream}] Request failed for {url}')
                         return []
                 response = raw_response.json()
                 result.extend(response['data'])
                 has_next_page = 'next' in response['paging'] if 'paging' in response else False
                 next_page_token = response['paging']['cursors']['after'] if 'paging' in response else ''
         except Exception as ex:
-            LOGGER.info(ex)
+            LOGGER.error(f'[{self.stream}] Error while retrieving data: {ex}')
         return result
